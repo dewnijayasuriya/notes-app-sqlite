@@ -29,9 +29,32 @@ class UpdateNoteActivity : AppCompatActivity() {
         binding.updateTitleEditText.setText(note.title)
         binding.updateContentEditText.setText(note.content)
 
+        //when the updateSaveButton is clicked it retrieves the text entered in the title
+        // and content EditText fields.
         binding.updateSaveButton.setOnClickListener{
             val newTitle=binding.updateTitleEditText.text.toString()
             val newContent=binding.updateContentEditText.text.toString()
+
+            // Validate input data
+
+            //if title and content is empty toast msj will appear
+            if (newTitle.isEmpty() || newContent.isEmpty()) {
+                Toast.makeText(this, "Please enter both title and content", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            //if title length is greater than 50 toast msj will appear
+            if (newTitle.length > 50) { // Adjust the maximum length as needed
+                Toast.makeText(this, "Title is too long", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            //if content is greater
+            if (newContent.length > 500) { // Adjust the maximum length as needed
+                Toast.makeText(this, "Content is too long", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             val updatedNote = Note(noteId, newTitle, newContent)
             db.updateNote(updatedNote)
             finish()
